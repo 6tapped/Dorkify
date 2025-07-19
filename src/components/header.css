@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 1.5rem 1rem 1.5rem;
+  background: #121212;
+  color: #fff;
+  border-bottom: 1px solid #333333;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.header-tagline {
+  font-size: 1rem;
+  color: #FFD54F;
+  margin-left: 1rem;
+  font-weight: 500;
+}
+
+.theme-toggle-btn {
+  background: #333333;
+  color: #FFD54F;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.theme-toggle-btn:hover {
+  background: #00BFA6;
+  color: #fff;
+}

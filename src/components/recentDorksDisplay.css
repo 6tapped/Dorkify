@@ -1,0 +1,33 @@
+.recent-dorks-display {
+  background: #181818;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border: 1px solid #333333;
+  max-width: 400px;
+}
+
+.recent-dorks-title {
+  font-size: 1.1rem;
+  color: #00BFA6;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.recent-dorks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recent-dork-item {
+  background: #232323;
+  color: #FFD54F;
+  font-family: 'Roboto Mono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  word-break: break-all;
+}
