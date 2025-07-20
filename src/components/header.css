@@ -57,6 +57,12 @@
   height: 48px;
   margin-bottom: 0.5rem;
   display: block;
+  cursor: pointer;
+}
+
+.header-logo-link {
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
 /* Light mode overrides */

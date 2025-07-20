@@ -8,7 +8,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => (
   <header className="header">
-    <img src="/logo.svg" alt="Dorkify Logo" className="header-logo" />
+    <a href="/" className="header-logo-link">
+      <img src="/logo.svg" alt="Dorkify Logo" className="header-logo" />
+    </a>
     <span className="header-title">Dorkify</span>
     <span className="header-tagline">Build and execute Google dork queries with ease!</span>
     <button

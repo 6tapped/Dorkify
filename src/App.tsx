@@ -60,58 +60,48 @@ const categoryTemplates: Record<string, any> = {
   "SVN Configs": { inurl: ".svn/entries" }
 };
 
-function buildDorkQuery(fields: Record<string, string>) {
+function buildDorkQuery(fields: Record<string, string | string[]>) {
   let query = '';
+
+  // Handle intitle
+  if (fields.intitle) {
+    const intitleArr = Array.isArray(fields.intitle) ? fields.intitle : [fields.intitle];
+    const intitlePart = intitleArr
+      .filter(kw => kw && kw.trim() !== "")
+      .map(kw => `intitle:"${kw}"`)
+      .join(' ');
+    if (intitlePart) query += intitlePart + ' ';
+  }
+
+  // Handle intext
+  if (fields.intext) {
+    const intextArr = Array.isArray(fields.intext) ? fields.intext : [fields.intext];
+    const intextPart = intextArr
+      .filter(kw => kw && kw.trim() !== "")
+      .map(kw => `intext:"${kw}"`)
+      .join(' ');
+    if (intextPart) query += intextPart + ' ';
+  }
+
+  // Handle fileType
+  if (fields.fileType && typeof fields.fileType === "string" && fields.fileType.trim() !== "") {
+    query += `filetype:${fields.fileType} `;
+  }
+
+  // Handle site
+  if (fields.site && typeof fields.site === "string" && fields.site.trim() !== "") {
+    query += `site:${fields.site} `;
+  }
+
+  // Handle other fields
   Object.entries(fields).forEach(([key, value]) => {
-    if (!value) return;
-    switch (key) {
-      case 'site':
-        query += `site:${value} `;
-        break;
-      case 'fileType':
-        query += `filetype:${value} `;
-        break;
-      case 'intitle':
-        query += `intitle:"${value}" `;
-        break;
-      case 'allintitle':
-        query += `allintitle:${value} `;
-        break;
-      case 'inurl':
-        query += `inurl:${value} `;
-        break;
-      case 'allinurl':
-        query += `allinurl:${value} `;
-        break;
-      case 'inText':
-        query += `intext:${value} `;
-        break;
-      case 'allintext':
-        query += `allintext:${value} `;
-        break;
-      case 'wildcard':
-        query += `${value} `;
-        break;
-      case 'or':
-        query += `${value} `;
-        break;
-      case 'excludeSite':
-        query += `-site:${value} `;
-        break;
-      case 'cache':
-        query += `cache:${value} `;
-        break;
-      case 'related':
-        query += `related:${value} `;
-        break;
-      case 'link':
-        query += `link:${value} `;
-        break;
-      default:
-        query += `${key}:${value} `;
-        break;
+    if (["intitle", "intext", "fileType", "site"].includes(key)) return;
+    if (Array.isArray(value)) return;
+    if (typeof value === "string" && value.trim() !== "") {
+      query += `${key}:${value} `;
     }
   });
+
   return query.trim();
 }
 
@@ -123,7 +113,11 @@ interface DorkHistoryEntry {
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [selectedCategory, setSelectedCategory] = useState<string>('Website Scoping');
-  const [formFields, setFormFields] = useState(categoryTemplates[selectedCategory]);
+  const [formFields, setFormFields] = useState<Record<string, string | string[]>>({
+    intitle: [""],
+    intext: [""],
+    // ...other fields
+  });
   const [dorkQuery, setDorkQuery] = useState('');
   const [recentDorks, setRecentDorks] = useState<DorkHistoryEntry[]>([]);
 
@@ -132,7 +126,20 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    setFormFields(categoryTemplates[selectedCategory] || {});
+    const template = categoryTemplates[selectedCategory] || {};
+    setFormFields({
+      ...template,
+      intitle: Array.isArray(template.intitle)
+        ? template.intitle
+        : template.intitle
+        ? [template.intitle]
+        : [""],
+      intext: Array.isArray(template.intext)
+        ? template.intext
+        : template.intext
+        ? [template.intext]
+        : [""],
+    });
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -145,17 +152,11 @@ function App() {
     setRecentDorks(stored);
   }, []);
 
-  // Add every new dork to history
+  // Clear history on every visit/refresh
   useEffect(() => {
-    if (!dorkQuery) return;
-    // Avoid duplicates in a row
-    if (recentDorks[0]?.query === dorkQuery) return;
-    const newEntry = { query: dorkQuery, date: new Date().toLocaleString() };
-    const updated = [newEntry, ...recentDorks].slice(0, 50);
-    setRecentDorks(updated);
-    localStorage.setItem('recentDorks', JSON.stringify(updated));
-    // eslint-disable-next-line
-  }, [dorkQuery]);
+    localStorage.removeItem('recentDorks');
+    setRecentDorks([]);
+  }, []);
 
   // Download history as txt
   const handleDownloadHistory = () => {
@@ -172,6 +173,8 @@ function App() {
   };
 
   const handleSaveDork = () => {
+    if (!dorkQuery) return;
+    if (recentDorks[0]?.query === dorkQuery) return;
     const newEntry = { query: dorkQuery, date: new Date().toLocaleString() };
     const updated = [newEntry, ...recentDorks].slice(0, 50);
     setRecentDorks(updated);
@@ -200,6 +203,14 @@ function App() {
         onDownload={handleDownloadHistory}
       />
       <RecentDorksDisplay recentDorks={recentDorks} />
+      <p style={{
+        color: theme === 'dark' ? '#FFD54F' : '#00796B',
+        fontSize: '0.98rem',
+        margin: '0.5rem 0 0.2rem 0',
+        textAlign: 'center'
+      }}>
+        <b>Tip:</b> Only saved dorks appear in your history.
+      </p>
     </div>
   );
 }
