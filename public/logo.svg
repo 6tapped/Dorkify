@@ -1,0 +1,7 @@
+<!-- filepath: public/logo.svg -->
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="24" cy="24" r="20" fill="#FFD54F" stroke="#00BFA6" stroke-width="3"/>
+  <ellipse cx="24" cy="24" rx="10" ry="16" fill="none" stroke="#00BFA6" stroke-width="2"/>
+  <circle cx="24" cy="24" r="6" fill="#00BFA6" stroke="#121212" stroke-width="2"/>
+  <line x1="34" y1="34" x2="44" y2="44" stroke="#121212" stroke-width="3" stroke-linecap="round"/>
+</svg>

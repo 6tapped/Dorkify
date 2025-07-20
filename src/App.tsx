@@ -115,12 +115,17 @@ function buildDorkQuery(fields: Record<string, string>) {
   return query.trim();
 }
 
+interface DorkHistoryEntry {
+  query: string;
+  date: string;
+}
+
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [selectedCategory, setSelectedCategory] = useState<string>('Website Scoping');
   const [formFields, setFormFields] = useState(categoryTemplates[selectedCategory]);
   const [dorkQuery, setDorkQuery] = useState('');
-  const [recentDorks, setRecentDorks] = useState<string[]>([]);
+  const [recentDorks, setRecentDorks] = useState<DorkHistoryEntry[]>([]);
 
   useEffect(() => {
     document.body.className = theme;
@@ -134,13 +139,41 @@ function App() {
     setDorkQuery(buildDorkQuery(formFields));
   }, [formFields]);
 
+  // Load from localStorage on mount
   useEffect(() => {
     const stored = JSON.parse(localStorage.getItem('recentDorks') || '[]');
     setRecentDorks(stored);
   }, []);
 
+  // Add every new dork to history
+  useEffect(() => {
+    if (!dorkQuery) return;
+    // Avoid duplicates in a row
+    if (recentDorks[0]?.query === dorkQuery) return;
+    const newEntry = { query: dorkQuery, date: new Date().toLocaleString() };
+    const updated = [newEntry, ...recentDorks].slice(0, 50);
+    setRecentDorks(updated);
+    localStorage.setItem('recentDorks', JSON.stringify(updated));
+    // eslint-disable-next-line
+  }, [dorkQuery]);
+
+  // Download history as txt
+  const handleDownloadHistory = () => {
+    const content = recentDorks
+      .map(d => `[${d.date}] ${d.query}`)
+      .join('\n\n');
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `dorkify-history-${new Date().toISOString().slice(0,10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleSaveDork = () => {
-    const updated = [dorkQuery, ...recentDorks].filter(Boolean).slice(0, 10);
+    const newEntry = { query: dorkQuery, date: new Date().toLocaleString() };
+    const updated = [newEntry, ...recentDorks].slice(0, 50);
     setRecentDorks(updated);
     localStorage.setItem('recentDorks', JSON.stringify(updated));
   };
@@ -152,15 +185,19 @@ function App() {
         categories={Object.keys(categoryTemplates)}
         selected={selectedCategory}
         onSelect={setSelectedCategory}
+        theme={theme}
       />
       <DorkBuilderForm
         fields={formFields}
         setFields={setFormFields}
+        selectedCategory={selectedCategory}
+        theme={theme}
       />
       <LivePreviewBox dorkQuery={dorkQuery} />
       <ActionButtons
         dorkQuery={dorkQuery}
         onSave={handleSaveDork}
+        onDownload={handleDownloadHistory}
       />
       <RecentDorksDisplay recentDorks={recentDorks} />
     </div>

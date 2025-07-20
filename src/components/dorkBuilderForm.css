@@ -9,6 +9,13 @@
   margin: 0 auto 2rem auto;
 }
 
+/* Light mode override */
+.dork-builder-form.light {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -35,4 +42,22 @@
 
 .form-input:focus {
   border-color: #00BFA6;
+}
+
+.dork-builder-form.dark .form-label {
+  color: #FFD54F;
+}
+.dork-builder-form.light .form-label {
+  color: #222; /* much darker for visibility */
+}
+
+.dork-builder-form.dark .form-input {
+  background: #121212;
+  color: #fff;
+  border: 1px solid #333333;
+}
+.dork-builder-form.light .form-input {
+  background: #fff;
+  color: #222;
+  border: 1px solid #cccccc;
 }

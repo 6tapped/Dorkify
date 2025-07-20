@@ -8,10 +8,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => (
   <header className="header">
-    <div>
-      <span className="header-title">Dorkify</span>
-      <span className="header-tagline">Build and execute Google dork queries with ease!</span>
-    </div>
+    <img src="/logo.svg" alt="Dorkify Logo" className="header-logo" />
+    <span className="header-title">Dorkify</span>
+    <span className="header-tagline">Build and execute Google dork queries with ease!</span>
     <button
       className="theme-toggle-btn"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}

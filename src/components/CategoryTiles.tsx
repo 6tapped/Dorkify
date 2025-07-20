@@ -1,12 +1,13 @@
 import React from 'react';
 import './categoryTiles.css';
 
-const CategoryTiles = ({ categories, selected, onSelect }: {
+const CategoryTiles = ({ categories, selected, onSelect, theme }: {
   categories: string[],
   selected: string,
-  onSelect: (cat: string) => void
+  onSelect: (cat: string) => void,
+  theme: 'dark' | 'light'
 }) => (
-  <div className="category-tiles">
+  <div className={`category-tiles ${theme}`}>
     {categories.map(cat => (
       <div
         key={cat}
