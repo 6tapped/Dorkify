@@ -4,14 +4,44 @@ A modern, interactive Google Dork query builder for OSINT, recon, and research.
 
 ---
 
-## 🚀 Local Development
+## 🌐 Live Demo
 
-1. **Install dependencies:**
+Try it now: [https://dorkify-sigma.vercel.app](https://dorkify-sigma.vercel.app)
+
+---
+
+## 📖 Overview
+
+**Dorkify** helps you build advanced Google search queries (dorks) for open-source intelligence (OSINT), bug bounty, and research.  
+No need to remember complex syntax—just fill in the fields, add keywords, and copy or save your custom dorks!
+
+---
+
+## ✨ Features
+
+- **Easy Google Dork Builder:** Add multiple keywords for title/text, file types, and more.
+- **AND/OR Logic:** Add as many keywords as you want—Dorkify builds the correct query.
+- **Site Restriction:** Limit searches to specific domains.
+- **Dark/Light Mode:** Switch themes for comfortable viewing.
+- **History:** Save and download your search history (only saved dorks are kept).
+- **Live Preview:** See your dork as you build it.
+
+---
+
+## 🚀 Installation & Local Development
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/KshitijPathak222/Dorkify.git
+   cd Dorkify
+   ```
+
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Start the development server:**
+3. **Start the development server:**
    ```bash
    npm start
    ```
@@ -19,42 +49,21 @@ A modern, interactive Google Dork query builder for OSINT, recon, and research.
 
 ---
 
-## 🌍 Deploy to Netlify (Recommended)
+## 🛠️ Tech Stack
 
-1. **Build the app:**
-   ```bash
-   npm run build
-   ```
-   This creates a `build/` folder.
-
-2. **Deploy:**
-   - Go to [https://app.netlify.com/](https://app.netlify.com/)
-   - Click **"Add new site" → "Import an existing project"**
-   - Connect your GitHub repo (or drag & drop the `build/` folder if deploying manually)
-   - Set the build command to `npm run build` and the publish directory to `build`
-   - Click **Deploy Site**
+- React
+- TypeScript
+- CSS Modules
 
 ---
 
-## 🌐 Deploy to Vercel (Alternative)
+## 🖥️ Usage
 
-1. Go to [https://vercel.com/](https://vercel.com/)
-2. Import your GitHub repo
-3. Vercel auto-detects React and builds your app
-
----
-
-## 🆓 Other Free Hosting Options
-
-- **GitHub Pages:**  
-  Use [gh-pages](https://github.com/tschaub/gh-pages) to deploy the `build/` folder.
-- **Firebase Hosting:**  
-  [Firebase Hosting Docs](https://firebase.google.com/docs/hosting)
-- **Surge:**  
-  ```bash
-  npm install -g surge
-  surge ./build
-  ```
+1. **Choose a category** (e.g., File Types, Page Title, etc.).
+2. **Add keywords** for title or text fields (use "Add Another" for more).
+3. **Optionally specify a site** (e.g., example.com).
+4. **Copy or save** your dork query.
+5. **Saved dorks** appear in your history (only when you click "Save").
 
 ---
 
@@ -63,6 +72,7 @@ A modern, interactive Google Dork query builder for OSINT, recon, and research.
 ```
 public/
   index.html
+  logo.svg
 src/
   App.tsx
   index.tsx
@@ -78,6 +88,16 @@ src/
 
 ---
 
-## 📝 License
+## 🤝 Contributing
 
-MIT
+Contributions are welcome!  
+Feel free to open issues or submit pull requests.
+
+---
+
+## 📝 CopyRight
+
+Copyright (c) 2025 Kshitij Pathak
+
+This software is provided free of charge for personal and educational use only.
+Commercial use, resale is strictly prohibited.
